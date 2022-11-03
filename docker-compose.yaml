@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+  server:
+    hostname: server
+    tty: true
+    build: './src'
+    ports:
+      - '80:80'
+    volumes:
+      - '.:/usr/src/app'
