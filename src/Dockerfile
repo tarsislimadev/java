@@ -6,4 +6,4 @@ COPY . .
 
 RUN javac ServerClass.java
 
-CMD java ServerClass
+CMD java ServerClass     
