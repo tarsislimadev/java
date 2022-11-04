@@ -4,6 +4,6 @@ WORKDIR /usr/src/app
 
 COPY . .
 
-CMD java ./src/Main.java
+RUN javac Main.java
 
-# CMD java Main
+CMD java Main
