@@ -4,6 +4,6 @@ WORKDIR /usr/src/app
 
 COPY . .
 
-RUN javac Main.java
+RUN javac ServerClass.java
 
-CMD java Main
+CMD java ServerClass
