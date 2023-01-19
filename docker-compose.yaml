@@ -1,9 +1,19 @@
 version: '3'
 
 services:
-  server:
+  app:
     build: './src/main'
     volumes:
-      - './src/main:/usr/src/app'
+      - './src/main:/usr/src/main'
+    environment:
+      - 'PORT=80'
     ports:
       - '80:80'
+
+  github-release:
+    image: 'github-release'
+    build: './src/main'
+
+  docker-push:
+    image: 'tmvdl/projects:java'
+    build: './src/main'
