@@ -13,83 +13,69 @@ import java.io.InputStreamReader;
 import java.io.BufferedReader;
 import java.io.InputStream;
 
-class Request {
-  public String firstLine = "";
-
-  public Request(InputStream inputStream) throws IOException {
-    InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-    BufferedReader reader = new BufferedReader(inputStreamReader);
-
-    String s = "";
-
-    this.firstLine = reader.readLine();
-
-    while ((s = reader.readLine()) != "") {
-      System.out.println("header: " + s);
-    }
-
-    while ((s = reader.readLine()) != "") {
-      System.out.println("body: " + s);
-    }
-
-  }
-
-}
-
-class Response {
-  InputStream inputStream = null;
-
-  public Response(InputStream inputStream) {
-    this.inputStream = inputStream;
-  }
-
-  public String getFirstLine() {
-    return "HTTP/1.1 200 OK";
-  }
-
-  public String getContentType() {
-    return "Content-Type: text/html";
-  }
-
-  public String getBodyString() {
-    return "";
-  }
-}
-
 class Main {
 
   public static void main(String[] args) throws IOException {
     ServerSocket ss = new ServerSocket(80);
-    Socket s = ss.accept();
 
-    InputStream inputStream = s.getInputStream();
-    InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-    BufferedReader reader = new BufferedReader(inputStreamReader);
+    while (true) {
+      Socket s = ss.accept();
 
-    OutputStream outputStream = s.getOutputStream();
-    OutputStreamWriter outputStreamWriter = new OutputStreamWriter(outputStream);
-    BufferedWriter writer = new BufferedWriter(outputStreamWriter);
+      InputStream inputStream = s.getInputStream();
+      InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+      BufferedReader reader = new BufferedReader(inputStreamReader);
 
-    String string = "";
+      String string = "";
 
-    while ((string = reader.readLine()) != null) {
-      System.out.println(string);
+      while ((string = reader.readLine()) != null) {
+        System.out.println(string);
+      }
+
+      OutputStream outputStream = s.getOutputStream();
+      OutputStreamWriter outputStreamWriter = new OutputStreamWriter(outputStream);
+      BufferedWriter writer = new BufferedWriter(outputStreamWriter);
+
+      Response response = new Response(inputStream);
+
+      writer.write(Main.getFirstLine("200"));
+      writer.newLine();
+    
+      writer.write(Main.getContentType("text/html"));
+      writer.newLine();
+    
+      writer.write("");
+      writer.newLine();
+    
+      writer.write(Main.getBodyString());
+      writer.newLine();
+
+      writer.flush();
+
+      s.close();
     }
 
-    // Response response = new Response(inputStream);
+  }
 
-    // writer.write(response.getFirstLine());
-    // writer.newLine();
-    
-    // writer.write(response.getContentType());
-    // writer.newLine();
-    
-    // writer.write("");
-    // writer.newLine();
-    
-    // writer.write(response.getBodyString());
-    // writer.newLine();
+  private static String getFirstLine(String status) {
+    String message = Main.getStatusMessage(status);
 
-    // writer.flush();
+    return "HTTP/1.1 " + status + " " + message;
+  }
+
+  private static String getStatusMessage(String status) {
+    switch (status) {
+      case "200": return "OK";
+      case "404": return "NOT FOUND";
+    }
+
+    return "ERROR";
+  }
+
+  private static String getContentType(String type) {
+    return "Content-Type: " + type;
+  }
+
+  private static String getBodyString() {
+    return "{}";
   }
 }
