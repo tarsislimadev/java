@@ -8,7 +8,7 @@
 
 ...
 
-## Projects
+## Services
 
 ...
 
