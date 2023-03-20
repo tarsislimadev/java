@@ -15,3 +15,7 @@
 ## Samples
 
 [Java Server](https://www.youtube.com/watch?v=-xKgxqG411c)
+
+## LICENSE
+
+[MIT](./LICENSE)
