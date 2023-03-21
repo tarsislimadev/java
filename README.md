@@ -2,7 +2,7 @@
 
 ## Docker image
 
-[Java](https://github.com/brtmvdl/docker-java)
+Java - [GitHub](https://github.com/brtmvdl/docker-java) - [Docker Hub](https://hub.docker.com/r/tmvdl/java)
 
 ## Projects
 
